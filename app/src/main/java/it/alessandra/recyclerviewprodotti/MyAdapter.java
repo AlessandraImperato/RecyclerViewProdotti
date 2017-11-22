@@ -21,6 +21,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>  {
 
     private List<Prodotto> prodotti;
     public Context context;
+    public static Prodotto prodotto;
 
     //costruttori della classe MyAdapter
     public MyAdapter(List<Prodotto> listaProd){
@@ -32,11 +33,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>  {
         context = mcontext;
     }
 
+
     @Override
     public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.riga, parent, false);
 
-        ViewHolder vh = new ViewHolder(v,getContext());
+        ViewHolder vh = new ViewHolder(v,parent.getContext());
         return vh;
     }
 
@@ -72,11 +74,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>  {
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     Intent i = new Intent(context,PrezzoActivity.class);
+                   // i.putExtra("Prodotto",prodotto);
                     i.putExtra("Prezzo",prezzo.getText());
-                    /*Activity origin = (Activity)context;
-                    origin.startActivityForResult(i,100);*/
-                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(i);
+                    ((Activity)context).startActivityForResult(i,100);
+
                 }
             });
         }
@@ -84,6 +85,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>  {
     }
     public Context getContext() {
         return context;
+    }
+
+   // @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 100){
+            if(resultCode == Activity.RESULT_OK){
+                prodotti = (List<Prodotto>) data.getSerializableExtra("RESULT");
+            }
+        }
     }
 
 }
