@@ -73,8 +73,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>  {
                 @Override public void onClick(View v) {
                     Intent i = new Intent(context,PrezzoActivity.class);
                     i.putExtra("Prezzo",prezzo.getText());
-                    Activity origin = (Activity)context;
-                    origin.startActivityForResult(i,100);
+                    /*Activity origin = (Activity)context;
+                    origin.startActivityForResult(i,100);*/
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(i);
                 }
             });
         }
