@@ -16,6 +16,7 @@ public class PrezzoActivity extends AppCompatActivity {
     private TextView intro;
     private Intent i2;
     private Double prz;
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,21 +28,17 @@ public class PrezzoActivity extends AppCompatActivity {
         intro = findViewById(R.id.intro);
 
         i2 = getIntent();
-         prz = Double.parseDouble(i2.getSerializableExtra("Prezzo").toString());
-
-
-        /* prendo il nuovo prezzo che viene inserito e lo salvo in prezzo nuovo*/
+        position = i2.getIntExtra("POSITION", -1);
 
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String tmp = newPrezzo.getText().toString();
-               // double prezzonuovo = Double.parseDouble(tmp);
                 prz = Double.parseDouble(tmp);
                 i2.putExtra("RESULT", prz);
+                i2.putExtra("POSITION",position);
                 setResult(Activity.RESULT_OK,i2);
                 finish();
-
             }
         });
 

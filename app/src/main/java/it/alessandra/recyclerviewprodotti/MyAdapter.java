@@ -43,11 +43,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>  {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         Prodotto tmp=prodotti.get(position);
         holder.nome.setText(tmp.getNome());
         holder.prezzo.setText(""+tmp.getPrezzo());
         holder.scadenza.setText(""+tmp.getScadenza());
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context,PrezzoActivity.class);
+                i.putExtra("POSITION", position);
+                ((Activity)v.getContext()).startActivityForResult(i,100);
+            }
+        });
     }
 
     @Override
@@ -70,16 +78,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>  {
             nome = (TextView) v.findViewById(R.id.nomearticolo);
             prezzo = (TextView) v.findViewById(R.id.prezzo);
             scadenza = (TextView) v.findViewById(R.id.data);
-
-            cardView.setOnClickListener(new View.OnClickListener() {
-                @Override public void onClick(View v) {
-                    Intent i = new Intent(context,PrezzoActivity.class);
-                   // i.putExtra("Prodotto",prodotto);
-                    i.putExtra("Prezzo",prezzo.getText());
-                    ((Activity)context).startActivityForResult(i,100);
-
-                }
-            });
         }
 
     }
@@ -87,13 +85,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>  {
         return context;
     }
 
-   // @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 100){
-            if(resultCode == Activity.RESULT_OK){
-                prodotti = (List<Prodotto>) data.getSerializableExtra("RESULT");
-            }
-        }
+    public void setPriceAtPosition(int position,double price){
+        prodotti.get(position).setPrezzo(price);
     }
+
+
 
 }

@@ -1,5 +1,6 @@
 package it.alessandra.recyclerviewprodotti;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
+    private MyAdapter myAdapter;
 
     private List<Prodotto> prodotti;
 
@@ -34,9 +36,23 @@ public class MainActivity extends AppCompatActivity {
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        final MyAdapter myAdapter = new MyAdapter(prodotti,getApplicationContext());
+        myAdapter = new MyAdapter(prodotti,getApplicationContext());
         recyclerView.setAdapter(myAdapter);
         
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 100){
+            if(resultCode == Activity.RESULT_OK){
+                int position = data.getIntExtra("POSITION", -1);
+                double price = data.getDoubleExtra("RESULT",0.0);
+                        myAdapter.setPriceAtPosition(position,price);
+                        myAdapter.notifyDataSetChanged();
+
+
+            }
+        }
     }
 
     public List<Prodotto> init(){
