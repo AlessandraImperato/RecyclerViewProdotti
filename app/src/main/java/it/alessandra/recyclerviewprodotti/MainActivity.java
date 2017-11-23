@@ -36,8 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         final MyAdapter myAdapter = new MyAdapter(prodotti,getApplicationContext());
         recyclerView.setAdapter(myAdapter);
-
-        //Intent i3 = getIntent();
+        
     }
 
     public List<Prodotto> init(){
